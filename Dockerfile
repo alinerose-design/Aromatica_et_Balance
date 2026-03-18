@@ -1,11 +1,11 @@
-# Use a lightweight web server image
+# Image serveur web légère
 FROM nginx:alpine
 
-# Copy the built Flutter web app into Nginx folder
-COPY build/web /usr/share/nginx/html
+# Copier ton site
+COPY . /usr/share/nginx/html
 
-# Expose port 80
+# Exposer le port 80
 EXPOSE 80
 
-# Run Nginx
+# Lancer Nginx
 CMD ["nginx", "-g", "daemon off;"]
