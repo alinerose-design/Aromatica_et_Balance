@@ -1,14 +1,11 @@
-FROM cirrusci/flutter:stable AS build
-
-WORKDIR /app
-COPY . .
-RUN flutter pub get
-RUN flutter build web
-
+# Use a lightweight web server image
 FROM nginx:alpine
 
-COPY --from=build /app/build/web /usr/share/nginx/html
+# Copy the built Flutter web app into Nginx folder
+COPY build/web /usr/share/nginx/html
 
+# Expose port 80
 EXPOSE 80
 
+# Run Nginx
 CMD ["nginx", "-g", "daemon off;"]
