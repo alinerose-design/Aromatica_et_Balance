@@ -1,11 +1,13 @@
-# Image serveur web légère
 FROM nginx:alpine
 
-# Copier ton site
-COPY . /usr/share/nginx/html
+# Remove default nginx content
+RUN rm -rf /usr/share/nginx/html/*
 
-# Exposer le port 80
+# Copy Flutter web build
+COPY build/web/ /usr/share/nginx/html
+
+# Expose port
 EXPOSE 80
 
-# Lancer Nginx
+# Run nginx
 CMD ["nginx", "-g", "daemon off;"]
