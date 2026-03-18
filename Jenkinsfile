@@ -8,6 +8,13 @@ pipeline {
             }
         }
 
+        // ✅ AJOUT ICI
+        stage('Test Docker') {
+            steps {
+                sh 'docker version'
+            }
+        }
+
         stage('Run Build/Tests') {
             steps {
                 sh 'echo "Build or test your project here"'
