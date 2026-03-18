@@ -14,44 +14,15 @@ pipeline {
             }
         }
 
-        stage('Run Build/Tests') {
-            steps {
-                sh 'echo "Build or test your project here"'
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t alinerose/aromatica-app .'
-            }
-        }
-
-        stage('Debug Docker Credentials') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh 'echo "DEBUG: USER=$USER"'
-                    sh 'echo "DEBUG: PASS length=${#PASS}"' // n’affiche pas le mot de passe complet
-                }
-            }
-        }
-
-        stage('Login Docker Hub') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'dockerhub', usernameVariable: 'USER', passwordVariable: 'PASS')]) {
-                    sh 'echo $PASS | docker login -u $USER --password-stdin'
-                }
-            }
-        }
-
-        stage('Push Docker Image') {
-            steps {
-                sh 'docker push alinerose/aromatica-app'
+                sh 'docker build -t aromatica-app .'
             }
         }
 
         stage('Deploy Container') {
             steps {
-                sh 'docker run -d -p 8082:80 alinerose/aromatica-app || true'
+                sh 'docker run -d -p 8082:80 aromatica-app || true'
             }
         }
     }
